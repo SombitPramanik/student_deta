@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #main {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            /* border: 2px solid red; */
+
+        }
+
+        form {
+            /* border: 2px solid red; */
+            width: 20vw;
+            padding: 10px;
+
+        }
+
+        form input {
+            margin: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 60vw;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <form method="post">
+            <label for="name">Name:</label>
+            <input type="text" name="name" required><br>
+
+            <label for="department">Department:</label>
+            <input type="text" name="department" required><br>
+
+            <label for="exam_type">Exam Type:</label>
+            <input type="radio" name="exam_type" value="JEE" required> JEE
+            <input type="radio" name="exam_type" value="WBJEE" required> WBJEE<br>
+
+            <div id="jee_rank_input" style="display:none;">
+                <label for="jee_rank">JEE Rank:</label>
+                <input type="text" name="jee_rank"><br>
+            </div>
+
+            <div id="wbjee_rank_input" style="display:none;">
+                <label for="wbjee_rank">WBJEE Rank:</label>
+                <input type="text" name="wbjee_rank"><br>
+            </div>
+
+            <button type="submit"> ADD Record</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Name</th>
+                    <th>Exam Type</th>
+                    <th>Rank</th>
+                    <th>Roll</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, row in df.iterrows() %}
+                <tr>
+                    <td>{{ row['Department'] }}</td>
+                    <td>{{ row['Name'] }}</td>
+                    <td>{{ row['Exam Type'] }}</td>
+                    <td>{{ row['Rank'] }}</td>
+                    <td>{{ row['Roll'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        {% if result %}
+            {% if result[6] != 0 %}
+                <!-- <span style="font-size: larger; font-weight: bold;">Error:</span> -->
+                <p> Error : {{ result[6] }}</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+<script>
+    // Script to toggle visibility of JEE Rank or WBJEE Rank input fields based on the selected exam type
+    document.addEventListener("DOMContentLoaded", function () {
+        var examTypeRadios = document.getElementsByName("exam_type");
+        var jeeRankInput = document.getElementById("jee_rank_input");
+        var wbjeeRankInput = document.getElementById("wbjee_rank_input");
+
+        function toggleRankInputs() {
+            jeeRankInput.style.display = examTypeRadios[0].checked ? "block" : "none";
+            wbjeeRankInput.style.display = examTypeRadios[1].checked ? "block" : "none";
+        }
+
+        // Initial toggle on page load
+        toggleRankInputs();
+
+        // Toggle on radio button change
+        for (var i = 0; i < examTypeRadios.length; i++) {
+            examTypeRadios[i].addEventListener("change", toggleRankInputs);
+        }
+    });
+</script>
+
+</html>
