@@ -42,19 +42,19 @@ def addStudent(existing_df, name, department, exam_type, jee_rank = None, wbjee_
         else:
             roll_number = f"{department}{current_year}01"
 
-        # Handle the case when rank data is not provided
         if exam_type == 'JEE':
-            jee_rank = int(jee_rank) if jee_rank else None
-            new_record = pd.DataFrame(
-            [[department, name, exam_type, jee_rank, roll_number]],
-            columns=['Department', 'Name', 'Exam Type', 'Rank', 'Roll'])
-
+        # Handle the case when rank data is not provided
+            try:
+                jee_rank = int(jee_rank) if jee_rank else None
+            except ValueError:
+                raise ValueError("Rank should be numeric")
         elif exam_type == 'WBJEE':
-            wbjee_rank = int(wbjee_rank) if wbjee_rank else None
-            new_record = pd.DataFrame(
-            [[department, name, exam_type, wbjee_rank, roll_number]],
-            columns=['Department', 'Name', 'Exam Type', 'Rank', 'Roll'])
-
+            try:
+                wbjee_rank = int(wbjee_rank) if wbjee_rank else None
+                new_record = pd.DataFrame([[department, name, exam_type, wbjee_rank, roll_number]],columns=['Department', 'Name', 'Exam Type', 'Rank', 'Roll'])
+            except ValueError:
+                raise ValueError("Rank Should be Numeric")
+            
         updated_df = pd.concat([existing_df, new_record], ignore_index=True)
         write_records_to_excel(updated_df)
 
@@ -76,13 +76,23 @@ def home():
         exam_type = request.form.get("exam_type").upper()
 
         if exam_type == "JEE":
-            jee_rank = int(request.form.get("jee_rank"))
-            wbjee_rank = None
-            # result = addStudent(existing_df, name, department, exam_type, jee_rank)
+            try:
+                jee_rank = int(request.form.get("jee_rank"))
+                wbjee_rank = None
+            except ValueError as z:
+                error_message = f"JEE Rank should be a numeric value. Cannot accept '{request.form.get('jee_rank')}'."
+                result = (None, None, None, None, None, None, error_message)
+                return render_template("index.html", result=result, df=existing_df)
+
         elif exam_type == "WBJEE":
-            wbjee_rank = int(request.form.get("wbjee_rank"))
-            jee_rank = None
-            # result = addStudent(existing_df, name, department, exam_type, wbjee_rank)
+            try:
+                wbjee_rank = int(request.form.get("wbjee_rank"))
+                jee_rank = None
+            except ValueError as y:
+                error_message = f"WBJEE Rank should be a numeric value. Cannot accept '{request.form.get('wbjee_rank')}'."
+                result = (None, None, None, None, None, None, error_message)
+                return render_template("index.html", result=result, df=existing_df)
+
         else:
             # Handle invalid exam type
             jee_rank = None
@@ -93,6 +103,7 @@ def home():
         return render_template("index.html", result=result, df=existing_df)
     
     return render_template("index.html", df=existing_df)
+
 
 
 if __name__ == '__main__':
