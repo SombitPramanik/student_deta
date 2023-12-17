@@ -1,0 +1,43 @@
+body {
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#main {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    /* border: 2px solid red; */
+
+}
+
+form {
+    /* border: 2px solid red; */
+    width: 20vw;
+    padding: 10px;
+
+}
+
+form input {
+    margin: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 60vw;
+    margin-top: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+}
