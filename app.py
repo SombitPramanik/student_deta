@@ -23,6 +23,7 @@ def write_records_to_excel(df):
 
 def addStudent(existing_df, name, department, exam_type, jee_rank = None, wbjee_rank = None):
     try:
+        new_record = None
         if department not in department_capacity:
             raise ValueError("Invalid department. Exit with Status code x2")
 
@@ -46,8 +47,10 @@ def addStudent(existing_df, name, department, exam_type, jee_rank = None, wbjee_
         # Handle the case when rank data is not provided
             try:
                 jee_rank = int(jee_rank) if jee_rank else None
+                new_record = pd.DataFrame([[department, name, exam_type, jee_rank, roll_number]],columns=['Department', 'Name', 'Exam Type', 'Rank', 'Roll'])
             except ValueError:
                 raise ValueError("Rank should be numeric")
+            
         elif exam_type == 'WBJEE':
             try:
                 wbjee_rank = int(wbjee_rank) if wbjee_rank else None
