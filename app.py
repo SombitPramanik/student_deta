@@ -80,7 +80,7 @@ def home():
                 jee_rank = int(request.form.get("jee_rank"))
                 wbjee_rank = None
             except ValueError as z:
-                error_message = f"JEE Rank should be a numeric value. Cannot accept '{request.form.get('jee_rank')}'."
+                error_message = f"JEE Rank should be a numeric value. Cannot accept '{z}'."
                 result = (None, None, None, None, None, None, error_message)
                 return render_template("index.html", result=result, df=existing_df)
 
@@ -89,7 +89,7 @@ def home():
                 wbjee_rank = int(request.form.get("wbjee_rank"))
                 jee_rank = None
             except ValueError as y:
-                error_message = f"WBJEE Rank should be a numeric value. Cannot accept '{request.form.get('wbjee_rank')}'."
+                error_message = f"WBJEE Rank should be a numeric value. Cannot accept '{y}'."
                 result = (None, None, None, None, None, None, error_message)
                 return render_template("index.html", result=result, df=existing_df)
 
