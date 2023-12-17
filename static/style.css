@@ -1,7 +1,8 @@
 body {
+    border: 2px solid red;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 90vh;
     margin: 0;
 }
 
@@ -9,12 +10,23 @@ body {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    /* border: 2px solid red; */
+    border: 2px solid black;
+    margin: 20px 10px;
+    height: 80%;
 
 }
-
+#Error{
+    margin: 5px 10px;
+    height: 10%;
+}
+div{
+    border: 2px solid red;
+}
+.fr{
+    height: 80%;
+}
 form {
-    /* border: 2px solid red; */
+    border: 2px solid red;
     width: 20vw;
     padding: 10px;
 
@@ -25,9 +37,9 @@ form input {
 }
 
 table {
+    /* border: 2px solid green; */
     border-collapse: collapse;
     width: 60vw;
-    margin-top: 20px;
 }
 
 table,
